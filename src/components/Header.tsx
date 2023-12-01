@@ -79,7 +79,7 @@ export function Header({smooth, goBack}: Props) {
           pt={14}
           justifyContent="center"
           alignItems="center">
-          <Text fontSize="4xl" fontWeight="800">
+          <Text fontSize="4xl" textAlign="center" fontWeight="800">
             Agenda de Churras
           </Text>
         </Flex>
