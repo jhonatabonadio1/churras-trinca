@@ -4,8 +4,9 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "vercel-build": "npx prisma generate --data-proxy && next build",
+    "vercel-build": "prisma generate && prisma migrate deploy && next build",
     "build": "next build",
+    "prisma:generate": "prisma generate",
     "start": "next start",
     "lint": "next lint"
   },
