@@ -383,7 +383,7 @@ function Create() {
                       setSelectedAmount(parseFloat(value))
                     }
                   />
-                  {selectedItens.length > 0 && (
+                  {selectedItens && selectedItens.length > 0 && (
                     <Text mt="1" fontStyle="italic">
                       Valor sugerido: {calculaSugestao()}
                     </Text>
