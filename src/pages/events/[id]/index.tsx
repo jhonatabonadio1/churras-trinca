@@ -6,6 +6,7 @@ import {FaDollarSign, FaUsers} from 'react-icons/fa'
 import {User} from '../../../components/User'
 import {useRouter} from 'next/router'
 import {useQuery} from 'react-query'
+import {Event} from '../../../services/hooks/useEvents'
 
 const fetchEvent = async (id: string | string[]) => {
   const response = await fetch('/api/event?eventId=' + id, {
@@ -31,10 +32,14 @@ function Event() {
 
   const {id} = router.query
 
-  const {data, isFetching} = useQuery(['event', id], () => fetchEvent(id), {
-    enabled: !!id,
-    staleTime: 1000 * 60 * 10, // 10 minutos
-  })
+  const {data, isFetching} = useQuery<Event>(
+    ['event', id],
+    () => fetchEvent(id),
+    {
+      enabled: !!id,
+      staleTime: 1000 * 60 * 10, // 10 minutos
+    },
+  )
   function getTotalValue(users: UserData[]) {
     let totalValue = 0
 
@@ -56,6 +61,7 @@ function Event() {
   const diaFormatado = dia < 10 ? `0${dia}` : dia
   const mesFormatado = mes < 10 ? `0${mes}` : mes
 
+  console.log(!isFetching && data.description)
   return (
     <Flex
       w="100%"
@@ -97,6 +103,24 @@ function Event() {
                   <Text fontSize="xl" fontWeight="semibold">
                     {data.name}
                   </Text>
+                  <Flex flexDir="column">
+                    <Text fontSize="md" fontWeight="semibold">
+                      Descrição
+                    </Text>
+                    <Text fontSize="sm" fontWeight="regular" fontStyle="italic">
+                      {data.description ? data.description : 'Sem descrição'}
+                    </Text>
+                  </Flex>
+                  <Flex flexDir="column">
+                    <Text fontSize="md" fontWeight="semibold">
+                      Observações
+                    </Text>
+                    <Text fontSize="sm" fontWeight="regular" fontStyle="italic">
+                      {data.additional_details
+                        ? data.additional_details
+                        : 'Sem observações adicionais.'}
+                    </Text>
+                  </Flex>
                 </VStack>
                 <VStack justifyContent="flex-start" alignItems="flex-start">
                   <HStack>

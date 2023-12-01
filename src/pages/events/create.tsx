@@ -78,6 +78,24 @@ function Create() {
 
   const [isLoading, setIsLoading] = useState(false)
 
+  function calculaSugestao() {
+    let sugestaoPreco = 0
+    for (const itemSelected of selectedItens) {
+      const findItens = churrasItens.find(
+        (item) => item.value === itemSelected.value,
+      )
+
+      if (findItens) {
+        sugestaoPreco += findItens.price
+      }
+    }
+
+    return sugestaoPreco.toLocaleString('pt-BR', {
+      style: 'currency',
+      currency: 'BRL',
+    })
+  }
+
   const handleCreateEvent: SubmitHandler<EventFormData> = async (values) => {
     setIsLoading(true)
     try {
@@ -352,18 +370,25 @@ function Create() {
                   />
                 </FormControl>
 
-                <NumericFormat
-                  placeholder="Valor"
-                  thousandSeparator="."
-                  decimalSeparator=","
-                  prefix={'R$ '}
-                  decimalScale={2}
-                  value={selectedAmount}
-                  customInput={Input}
-                  onValueChange={({value}) =>
-                    setSelectedAmount(parseFloat(value))
-                  }
-                />
+                <Flex flexDir="column" w="full">
+                  <NumericFormat
+                    placeholder="Valor"
+                    thousandSeparator="."
+                    decimalSeparator=","
+                    prefix={'R$ '}
+                    decimalScale={2}
+                    value={selectedAmount}
+                    customInput={Input}
+                    onValueChange={({value}) =>
+                      setSelectedAmount(parseFloat(value))
+                    }
+                  />
+                  {selectedItens.length > 0 && (
+                    <Text mt="1" fontStyle="italic">
+                      Valor sugerido: {calculaSugestao()}
+                    </Text>
+                  )}
+                </Flex>
               </Flex>
               <Flex w="full" gap={8}>
                 <FormControl>

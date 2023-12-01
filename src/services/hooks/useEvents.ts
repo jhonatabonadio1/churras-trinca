@@ -3,6 +3,8 @@ import {useQuery} from 'react-query'
 export type Event = {
   id: string
   name: string
+  additional_details: string
+  description: string
   date: string
   users: {
     id: string
